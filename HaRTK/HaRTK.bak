@@ -1,0 +1,849 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:nv08c-csm
+LIBS:raspberrypi
+LIBS:hope-rf
+LIBS:HaRTK-cache
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L NV08C-CSM U?
+U 1 1 56F18AB6
+P 8150 3200
+F 0 "U?" H 8150 2600 60  0000 C CNN
+F 1 "NV08C-CSM" H 8100 3700 60  0000 C CNN
+F 2 "" H 7150 4550 60  0000 C CNN
+F 3 "" H 7150 4550 60  0000 C CNN
+	1    8150 3200
+	1    0    0    -1  
+$EndComp
+$Comp
+L RaspberryPi U?
+U 1 1 56F1972B
+P 2150 2750
+F 0 "U?" H 2150 1600 60  0000 C CNN
+F 1 "RaspberryPi" H 2100 3900 60  0000 C CNN
+F 2 "" H 2350 3100 60  0000 C CNN
+F 3 "" H 2350 3100 60  0000 C CNN
+	1    2150 2750
+	1    0    0    -1  
+$EndComp
+$Comp
+L RFM22B U?
+U 1 1 56F1A106
+P 3150 5600
+F 0 "U?" H 3150 5050 60  0000 C CNN
+F 1 "RFM22B" H 3150 5950 60  0000 C CNN
+F 2 "" H 3200 5600 60  0000 C CNN
+F 3 "" H 3200 5600 60  0000 C CNN
+	1    3150 5600
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 56F1B0B2
+P 3750 5350
+F 0 "#PWR?" H 3750 5100 50  0001 C CNN
+F 1 "GND" H 3750 5200 50  0000 C CNN
+F 2 "" H 3750 5350 50  0000 C CNN
+F 3 "" H 3750 5350 50  0000 C CNN
+	1    3750 5350
+	0    -1   -1   0   
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 56F1B0D2
+P 3750 6050
+F 0 "#PWR?" H 3750 5800 50  0001 C CNN
+F 1 "GND" H 3750 5900 50  0000 C CNN
+F 2 "" H 3750 6050 50  0000 C CNN
+F 3 "" H 3750 6050 50  0000 C CNN
+	1    3750 6050
+	0    -1   -1   0   
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 56F1B0F3
+P 2500 5450
+F 0 "#PWR?" H 2500 5200 50  0001 C CNN
+F 1 "GND" H 2500 5300 50  0000 C CNN
+F 2 "" H 2500 5450 50  0000 C CNN
+F 3 "" H 2500 5450 50  0000 C CNN
+	1    2500 5450
+	0    1    1    0   
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 56F1B4A8
+P 1450 2200
+F 0 "#PWR?" H 1450 1950 50  0001 C CNN
+F 1 "GND" H 1450 2050 50  0000 C CNN
+F 2 "" H 1450 2200 50  0000 C CNN
+F 3 "" H 1450 2200 50  0000 C CNN
+	1    1450 2200
+	0    1    1    0   
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 56F1B698
+P 2850 2000
+F 0 "#PWR?" H 2850 1750 50  0001 C CNN
+F 1 "GND" H 2850 1850 50  0000 C CNN
+F 2 "" H 2850 2000 50  0000 C CNN
+F 3 "" H 2850 2000 50  0000 C CNN
+	1    2850 2000
+	0    -1   -1   0   
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 56F1B6B5
+P 2850 2400
+F 0 "#PWR?" H 2850 2150 50  0001 C CNN
+F 1 "GND" H 2850 2250 50  0000 C CNN
+F 2 "" H 2850 2400 50  0000 C CNN
+F 3 "" H 2850 2400 50  0000 C CNN
+	1    2850 2400
+	0    -1   -1   0   
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 56F1B769
+P 2850 2700
+F 0 "#PWR?" H 2850 2450 50  0001 C CNN
+F 1 "GND" H 2850 2550 50  0000 C CNN
+F 2 "" H 2850 2700 50  0000 C CNN
+F 3 "" H 2850 2700 50  0000 C CNN
+	1    2850 2700
+	0    -1   -1   0   
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 56F1B788
+P 2850 3200
+F 0 "#PWR?" H 2850 2950 50  0001 C CNN
+F 1 "GND" H 2850 3050 50  0000 C CNN
+F 2 "" H 2850 3200 50  0000 C CNN
+F 3 "" H 2850 3200 50  0000 C CNN
+	1    2850 3200
+	0    -1   -1   0   
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 56F1B7AF
+P 2850 3400
+F 0 "#PWR?" H 2850 3150 50  0001 C CNN
+F 1 "GND" H 2850 3250 50  0000 C CNN
+F 2 "" H 2850 3400 50  0000 C CNN
+F 3 "" H 2850 3400 50  0000 C CNN
+	1    2850 3400
+	0    -1   -1   0   
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 56F1B7D0
+P 1450 3700
+F 0 "#PWR?" H 1450 3450 50  0001 C CNN
+F 1 "GND" H 1450 3550 50  0000 C CNN
+F 2 "" H 1450 3700 50  0000 C CNN
+F 3 "" H 1450 3700 50  0000 C CNN
+	1    1450 3700
+	0    1    1    0   
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 56F1B82E
+P 1450 3000
+F 0 "#PWR?" H 1450 2750 50  0001 C CNN
+F 1 "GND" H 1450 2850 50  0000 C CNN
+F 2 "" H 1450 3000 50  0000 C CNN
+F 3 "" H 1450 3000 50  0000 C CNN
+	1    1450 3000
+	0    1    1    0   
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 56F1BD62
+P 7100 2800
+F 0 "#PWR?" H 7100 2550 50  0001 C CNN
+F 1 "GND" H 7100 2650 50  0000 C CNN
+F 2 "" H 7100 2800 50  0000 C CNN
+F 3 "" H 7100 2800 50  0000 C CNN
+	1    7100 2800
+	0    1    1    0   
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 56F1BE2F
+P 7050 3950
+F 0 "#PWR?" H 7050 3700 50  0001 C CNN
+F 1 "GND" H 7050 3800 50  0000 C CNN
+F 2 "" H 7050 3950 50  0000 C CNN
+F 3 "" H 7050 3950 50  0000 C CNN
+	1    7050 3950
+	0    1    1    0   
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 56F1BE97
+P 7900 4550
+F 0 "#PWR?" H 7900 4300 50  0001 C CNN
+F 1 "GND" H 7900 4400 50  0000 C CNN
+F 2 "" H 7900 4550 50  0000 C CNN
+F 3 "" H 7900 4550 50  0000 C CNN
+	1    7900 4550
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 56F1BEE3
+P 8200 4500
+F 0 "#PWR?" H 8200 4250 50  0001 C CNN
+F 1 "GND" H 8200 4350 50  0000 C CNN
+F 2 "" H 8200 4500 50  0000 C CNN
+F 3 "" H 8200 4500 50  0000 C CNN
+	1    8200 4500
+	0    1    1    0   
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 56F1C07E
+P 8500 4500
+F 0 "#PWR?" H 8500 4250 50  0001 C CNN
+F 1 "GND" H 8500 4350 50  0000 C CNN
+F 2 "" H 8500 4500 50  0000 C CNN
+F 3 "" H 8500 4500 50  0000 C CNN
+	1    8500 4500
+	0    -1   -1   0   
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 56F1C436
+P 9150 3950
+F 0 "#PWR?" H 9150 3700 50  0001 C CNN
+F 1 "GND" H 9150 3800 50  0000 C CNN
+F 2 "" H 9150 3950 50  0000 C CNN
+F 3 "" H 9150 3950 50  0000 C CNN
+	1    9150 3950
+	0    -1   -1   0   
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 56F1C4E7
+P 9150 3100
+F 0 "#PWR?" H 9150 2850 50  0001 C CNN
+F 1 "GND" H 9150 2950 50  0000 C CNN
+F 2 "" H 9150 3100 50  0000 C CNN
+F 3 "" H 9150 3100 50  0000 C CNN
+	1    9150 3100
+	0    -1   -1   0   
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 56F1C56A
+P 9150 2900
+F 0 "#PWR?" H 9150 2650 50  0001 C CNN
+F 1 "GND" H 9150 2750 50  0000 C CNN
+F 2 "" H 9150 2900 50  0000 C CNN
+F 3 "" H 9150 2900 50  0000 C CNN
+	1    9150 2900
+	0    -1   -1   0   
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 56F1C5A3
+P 9150 2600
+F 0 "#PWR?" H 9150 2350 50  0001 C CNN
+F 1 "GND" H 9150 2450 50  0000 C CNN
+F 2 "" H 9150 2600 50  0000 C CNN
+F 3 "" H 9150 2600 50  0000 C CNN
+	1    9150 2600
+	0    -1   -1   0   
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 56F1C709
+P 7850 2000
+F 0 "#PWR?" H 7850 1750 50  0001 C CNN
+F 1 "GND" H 7850 1850 50  0000 C CNN
+F 2 "" H 7850 2000 50  0000 C CNN
+F 3 "" H 7850 2000 50  0000 C CNN
+	1    7850 2000
+	-1   0    0    1   
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 56F1C74B
+P 8500 2000
+F 0 "#PWR?" H 8500 1750 50  0001 C CNN
+F 1 "GND" H 8500 1850 50  0000 C CNN
+F 2 "" H 8500 2000 50  0000 C CNN
+F 3 "" H 8500 2000 50  0000 C CNN
+	1    8500 2000
+	-1   0    0    1   
+$EndComp
+Text Notes 750  6550 0    60   ~ 0
+Vcc: 1.8V->3.6V (3.3V Recommended)
+Text Notes 750  6700 0    60   ~ 0
+Ant: 50 Ohm
+Text Notes 750  6850 0    60   ~ 0
+TX mode current: 85mA
+Text Notes 750  7000 0    60   ~ 0
+Digital IO 3.3V\n
+Text Notes 750  7150 0    60   ~ 0
+Max RX Input Power: 10 dBm\n
+$Comp
+L +3.3V #PWR?
+U 1 1 56F1D8F9
+P 1450 1800
+F 0 "#PWR?" H 1450 1650 50  0001 C CNN
+F 1 "+3.3V" H 1450 1940 50  0000 C CNN
+F 2 "" H 1450 1800 50  0000 C CNN
+F 3 "" H 1450 1800 50  0000 C CNN
+	1    1450 1800
+	0    -1   -1   0   
+$EndComp
+$Comp
+L +3.3V #PWR?
+U 1 1 56F1DB05
+P 1450 2600
+F 0 "#PWR?" H 1450 2450 50  0001 C CNN
+F 1 "+3.3V" H 1450 2740 50  0000 C CNN
+F 2 "" H 1450 2600 50  0000 C CNN
+F 3 "" H 1450 2600 50  0000 C CNN
+	1    1450 2600
+	0    -1   -1   0   
+$EndComp
+$Comp
+L +3.3V #PWR?
+U 1 1 56F1DC72
+P 2500 5750
+F 0 "#PWR?" H 2500 5600 50  0001 C CNN
+F 1 "+3.3V" H 2500 5890 50  0000 C CNN
+F 2 "" H 2500 5750 50  0000 C CNN
+F 3 "" H 2500 5750 50  0000 C CNN
+	1    2500 5750
+	0    -1   -1   0   
+$EndComp
+Text Notes 2750 6350 0    60   ~ 12
+Need to add decoupling\n
+$Comp
+L BNC P?
+U 1 1 56F1F0EF
+P 750 5350
+F 0 "P?" H 760 5470 50  0000 C CNN
+F 1 "Telem RF" V 860 5290 50  0000 C CNN
+F 2 "" H 750 5350 50  0000 C CNN
+F 3 "" H 750 5350 50  0000 C CNN
+	1    750  5350
+	-1   0    0    -1  
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 56F1F7F3
+P 750 5600
+F 0 "#PWR?" H 750 5350 50  0001 C CNN
+F 1 "GND" H 750 5450 50  0000 C CNN
+F 2 "" H 750 5600 50  0000 C CNN
+F 3 "" H 750 5600 50  0000 C CNN
+	1    750  5600
+	1    0    0    -1  
+$EndComp
+Text Label 1650 5550 2    60   ~ 0
+RX_ANT_RFM22B
+Text Label 1650 5650 2    60   ~ 0
+TX_ANT_RFM22B
+Text Label 1650 5850 2    60   ~ 12
+GPIO0_RFM22B
+Text Label 1650 5950 2    60   ~ 12
+GPIO1_RFM22B
+Text Label 1650 6050 2    60   ~ 12
+GPIO2_RFM22B
+Text Label 1300 3200 2    60   ~ 0
+RX_ANT_RFM22B
+Text Label 1300 3300 2    60   ~ 0
+TX_ANT_RFM22B
+Text Label 1300 3400 2    60   ~ 0
+GPIO0_RFM22B
+Text Label 1300 3500 2    60   ~ 0
+GPIO1_RFM22B
+Text Label 1300 3600 2    60   ~ 0
+GPIO2_RFM22B
+Text Label 4050 5450 0    60   ~ 0
+SDN_RFM22B
+Text Label 4050 5550 0    60   ~ 0
+NIRQ_RFM22B
+Text Label 4050 5650 0    60   ~ 0
+NSEL_RFM22B
+Text Label 4050 5750 0    60   ~ 0
+SCK_RFM22B
+Text Label 4050 5850 0    60   ~ 0
+SDI_RFM22B
+Text Label 4050 5950 0    60   ~ 0
+SDO_RFM22B
+Text Label 1250 2800 2    60   ~ 0
+SDO_RFM22B
+Text Label 1250 2700 2    60   ~ 0
+SDI_RFM22B
+Text Label 1250 2900 2    60   ~ 0
+SCK_RFM22B
+Text Label 3050 2900 0    60   ~ 0
+NSEL_RFM22B
+Text Label 3050 3700 0    60   ~ 0
+NIRQ_RFM22B
+Text Label 3050 3600 0    60   ~ 0
+SDN_RFM22B
+Text Notes 4350 2050 0    60   ~ 0
+Add status LEDs:\nPower\nGPS Lock\nBase detected\nRTK Solution\nAntflag
+Text Notes 2800 5100 0    60   ~ 12
+RF Tranceiver
+Text Notes 8950 4450 0    60   ~ 0
+Digital I/O Supply: 1.8V->3.3V\n
+Text Notes 8950 4600 0    60   ~ 0
+GNSS: 180mW\n
+Text Notes 4350 1300 0    60   ~ 0
+Add a 3.3V LDO to the board
+$Comp
+L +3.3V #PWR?
+U 1 1 56F2E806
+P 6350 3500
+F 0 "#PWR?" H 6350 3350 50  0001 C CNN
+F 1 "+3.3V" H 6350 3640 50  0000 C CNN
+F 2 "" H 6350 3500 50  0000 C CNN
+F 3 "" H 6350 3500 50  0000 C CNN
+	1    6350 3500
+	0    -1   1    0   
+$EndComp
+$Comp
+L +3.3V #PWR?
+U 1 1 56F2EF50
+P 9350 2700
+F 0 "#PWR?" H 9350 2550 50  0001 C CNN
+F 1 "+3.3V" H 9350 2840 50  0000 C CNN
+F 2 "" H 9350 2700 50  0000 C CNN
+F 3 "" H 9350 2700 50  0000 C CNN
+	1    9350 2700
+	0    1    -1   0   
+$EndComp
+Text Notes 8950 4300 0    60   ~ 0
+Decoupling capacitors are \nintegrated in the package
+$Comp
+L C 22pF
+U 1 1 56F306DE
+P 6700 3700
+F 0 "22pF" H 6725 3800 50  0000 L CNN
+F 1 "C" H 6725 3600 50  0000 L CNN
+F 2 "" H 6738 3550 50  0000 C CNN
+F 3 "" H 6700 3700 50  0000 C CNN
+	1    6700 3700
+	1    0    0    -1  
+$EndComp
+$Comp
+L C 1uF
+U 1 1 56F30763
+P 6450 3700
+F 0 "1uF" H 6475 3800 50  0000 L CNN
+F 1 "C" H 6475 3600 50  0000 L CNN
+F 2 "" H 6488 3550 50  0000 C CNN
+F 3 "" H 6450 3700 50  0000 C CNN
+	1    6450 3700
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 56F309B6
+P 6700 3900
+F 0 "#PWR?" H 6700 3650 50  0001 C CNN
+F 1 "GND" H 6700 3750 50  0000 C CNN
+F 2 "" H 6700 3900 50  0000 C CNN
+F 3 "" H 6700 3900 50  0000 C CNN
+	1    6700 3900
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 56F30A20
+P 6450 3900
+F 0 "#PWR?" H 6450 3650 50  0001 C CNN
+F 1 "GND" H 6450 3750 50  0000 C CNN
+F 2 "" H 6450 3900 50  0000 C CNN
+F 3 "" H 6450 3900 50  0000 C CNN
+	1    6450 3900
+	1    0    0    -1  
+$EndComp
+Text Notes 6150 4300 0    60   ~ 0
+22uF should be placed as \nclose as possible to VIN_A\n
+Text Label 9650 2800 0    60   ~ 0
+RESET_NVC
+Text Notes 9650 2650 0    60   ~ 0
+Reset needs to be pulsed\nlonger than 1ms and will \nstay in reset 140ms after \nthe signal.
+Text Label 3050 3500 0    60   ~ 0
+RESET_NVC
+Wire Wire Line
+	3650 5350 3750 5350
+Wire Wire Line
+	3650 6050 3750 6050
+Wire Wire Line
+	2500 5450 2600 5450
+Wire Wire Line
+	1550 2200 1450 2200
+Wire Wire Line
+	2750 2000 2850 2000
+Wire Wire Line
+	2850 2400 2750 2400
+Wire Wire Line
+	2850 2700 2750 2700
+Wire Wire Line
+	2850 3200 2750 3200
+Wire Wire Line
+	2850 3400 2750 3400
+Wire Wire Line
+	1450 3700 1550 3700
+Wire Wire Line
+	1450 3000 1550 3000
+Wire Wire Line
+	7200 3600 7100 3600
+Wire Wire Line
+	7100 2800 7200 2800
+Wire Wire Line
+	7100 4050 7200 4050
+Wire Wire Line
+	7100 3600 7100 4050
+Wire Wire Line
+	7050 3950 7200 3950
+Connection ~ 7100 3950
+Wire Wire Line
+	7850 4400 7850 4450
+Wire Wire Line
+	7850 4450 7950 4450
+Wire Wire Line
+	7950 4450 7950 4400
+Wire Wire Line
+	7900 4450 7900 4550
+Connection ~ 7900 4450
+Wire Wire Line
+	8250 4400 8250 4500
+Wire Wire Line
+	8250 4500 8200 4500
+Wire Wire Line
+	8450 4400 8450 4500
+Wire Wire Line
+	8450 4500 8500 4500
+Wire Wire Line
+	9050 3950 9150 3950
+Wire Wire Line
+	9100 3700 9100 4050
+Wire Wire Line
+	9100 4050 9050 4050
+Wire Wire Line
+	9100 3700 9050 3700
+Connection ~ 9100 3950
+Wire Wire Line
+	9050 3100 9150 3100
+Wire Wire Line
+	9050 2900 9150 2900
+Wire Wire Line
+	9050 2600 9150 2600
+Wire Wire Line
+	7850 2000 7850 2100
+Wire Wire Line
+	8500 2000 8500 2100
+Wire Wire Line
+	1450 1800 1550 1800
+Wire Wire Line
+	1450 2600 1550 2600
+Wire Wire Line
+	2600 5750 2500 5750
+Wire Wire Line
+	900  5350 2600 5350
+Wire Wire Line
+	750  5550 750  5600
+Wire Wire Line
+	1650 5550 2600 5550
+Wire Wire Line
+	1650 5650 2600 5650
+Wire Wire Line
+	1650 5850 2600 5850
+Wire Wire Line
+	1650 5950 2600 5950
+Wire Wire Line
+	1650 6050 2600 6050
+Wire Wire Line
+	1300 3600 1550 3600
+Wire Wire Line
+	1300 3500 1550 3500
+Wire Wire Line
+	1300 3400 1550 3400
+Wire Wire Line
+	1300 3300 1550 3300
+Wire Wire Line
+	1300 3200 1550 3200
+Wire Wire Line
+	3650 5450 4050 5450
+Wire Wire Line
+	4050 5550 3650 5550
+Wire Wire Line
+	3650 5650 4050 5650
+Wire Wire Line
+	4050 5750 3650 5750
+Wire Wire Line
+	3650 5850 4050 5850
+Wire Wire Line
+	4050 5950 3650 5950
+Wire Wire Line
+	1550 2800 1250 2800
+Wire Wire Line
+	1250 2900 1550 2900
+Wire Wire Line
+	1550 2700 1250 2700
+Wire Wire Line
+	2750 3600 3050 3600
+Wire Wire Line
+	2750 3700 3050 3700
+Wire Wire Line
+	2750 2900 3050 2900
+Wire Wire Line
+	6350 3500 7200 3500
+Wire Wire Line
+	9350 2700 9050 2700
+Wire Wire Line
+	6450 3550 6450 3500
+Connection ~ 6450 3500
+Wire Wire Line
+	6700 3550 6700 3500
+Connection ~ 6700 3500
+Wire Wire Line
+	6700 3850 6700 3900
+Wire Wire Line
+	6450 3850 6450 3900
+Wire Wire Line
+	9050 2800 9650 2800
+Wire Wire Line
+	3050 3500 2750 3500
+Wire Wire Line
+	6900 2700 7200 2700
+Text Label 6900 2700 2    60   ~ 0
+PPS_NVS
+Text Label 7350 800  2    60   ~ 0
+PPS_NVS
+Text Notes 9900 5500 0    60   ~ 12
+Antenna parameters
+Wire Notes Line
+	9900 5550 10800 5550
+Text Notes 9900 6050 0    60   ~ 0
+fc = 1590 MHz\nB = 35 MHz\nG = 20 - 30dB\nNF < 2dB\nBrej - 35dB at +-70 MHz
+Text Notes 9900 6250 0    60   ~ 0
+LNA current: 57mA\nLNA voltage: 2.65V
+Text Label 9650 3600 0    60   ~ 0
+ANTFLAG_NVC
+Wire Wire Line
+	9650 3600 9050 3600
+Text Label 3050 3300 0    60   ~ 0
+ANTFLAG_NVC
+Wire Wire Line
+	3050 3300 2750 3300
+$Comp
+L +3.3V #PWR?
+U 1 1 56F37C42
+P 7750 1900
+F 0 "#PWR?" H 7750 1750 50  0001 C CNN
+F 1 "+3.3V" H 7750 2040 50  0000 C CNN
+F 2 "" H 7750 1900 50  0000 C CNN
+F 3 "" H 7750 1900 50  0000 C CNN
+	1    7750 1900
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	7750 1900 7750 2100
+$Comp
+L GND #PWR?
+U 1 1 56F380EC
+P 6900 3150
+F 0 "#PWR?" H 6900 2900 50  0001 C CNN
+F 1 "GND" H 6900 3000 50  0000 C CNN
+F 2 "" H 6900 3150 50  0000 C CNN
+F 3 "" H 6900 3150 50  0000 C CNN
+	1    6900 3150
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	7150 2800 7150 2900
+Wire Wire Line
+	7150 2900 7200 2900
+Connection ~ 7150 2800
+Wire Wire Line
+	7200 3100 7200 3200
+Wire Wire Line
+	7200 3150 6900 3150
+Connection ~ 7200 3150
+Text Notes 8650 900  2    60   ~ 0
+UART A - 115200 NMEA\n
+Text Notes 7550 1000 0    60   ~ 0
+UART B - 115200 BINR
+Text Label 7950 1700 1    60   ~ 0
+RX_NMEA_NVC
+Text Label 8050 1700 1    60   ~ 0
+TX_NMEA_NVC
+Wire Wire Line
+	7950 1700 7950 2100
+Wire Wire Line
+	8050 1700 8050 2100
+Text Label 8400 1700 1    60   ~ 0
+RX_BINR_NVC
+Text Label 8300 1700 1    60   ~ 0
+TX_BINR_NVC
+Wire Wire Line
+	8300 1700 8300 2100
+Wire Wire Line
+	8400 1700 8400 2100
+Text Label 3050 2100 0    60   ~ 0
+RX_NMEA_NVC
+Text Label 3050 2200 0    60   ~ 0
+TX_NMEA_NVC
+Wire Wire Line
+	3050 2200 2750 2200
+Wire Wire Line
+	2750 2100 3050 2100
+Text Notes 4350 1150 0    60   ~ 0
+Do we need both serial streams?\nWe could use a SC16IS740 for I2C .\nOr we could add jumpers to switch \nbetween UARTA and UARTB.\nto UART 
+Text Label 9650 3200 0    60   ~ 0
+SLEEPFLAG_NVC
+Wire Wire Line
+	9650 3200 9050 3200
+Text Label 3050 3000 0    60   ~ 0
+SLEEPFLAG_NVC
+Wire Wire Line
+	3050 3000 2750 3000
+$Comp
+L CONN_01X02 P?
+U 1 1 56F3E08C
+P 10750 3050
+F 0 "P?" H 10750 3200 50  0000 C CNN
+F 1 "Bat holder" V 10850 3050 50  0000 C CNN
+F 2 "" H 10750 3050 50  0000 C CNN
+F 3 "" H 10750 3050 50  0000 C CNN
+	1    10750 3050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	10550 3000 9050 3000
+Wire Wire Line
+	10550 3100 10500 3100
+Wire Wire Line
+	10500 3100 10500 3250
+$Comp
+L GND #PWR?
+U 1 1 56F3E3B4
+P 10500 3250
+F 0 "#PWR?" H 10500 3000 50  0001 C CNN
+F 1 "GND" H 10500 3100 50  0000 C CNN
+F 2 "" H 10500 3250 50  0000 C CNN
+F 3 "" H 10500 3250 50  0000 C CNN
+	1    10500 3250
+	1    0    0    -1  
+$EndComp
+$Comp
+L +3.3V #PWR?
+U 1 1 56F3E9B3
+P 8600 1900
+F 0 "#PWR?" H 8600 1750 50  0001 C CNN
+F 1 "+3.3V" H 8600 2040 50  0000 C CNN
+F 2 "" H 8600 1900 50  0000 C CNN
+F 3 "" H 8600 1900 50  0000 C CNN
+	1    8600 1900
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	8600 1900 8600 2100
+NoConn ~ 7200 2600
+Wire Wire Line
+	7200 3000 7100 3000
+$Comp
+L +3.3V #PWR?
+U 1 1 56F36F51
+P 7100 3000
+F 0 "#PWR?" H 7100 2850 50  0001 C CNN
+F 1 "+3.3V" H 7100 3140 50  0000 C CNN
+F 2 "" H 7100 3000 50  0000 C CNN
+F 3 "" H 7100 3000 50  0000 C CNN
+	1    7100 3000
+	0    -1   1    0   
+$EndComp
+Text Notes 4350 1450 0    60   ~ 0
+Add PPS header
+Text Notes 4350 600  0    60   ~ 12
+TODO:
+Wire Notes Line
+	4300 650  6050 650 
+Text Notes 4350 2250 0    60   ~ 0
+Add programming SPI to NVC and \nmake GPIO configuration setable
+Text Notes 4350 2400 0    60   ~ 0
+Add output UART for drone application
+Text Notes 4350 2650 0    60   ~ 0
+Figure out what to do with\nRFM22B GPIO pins
+$Comp
+L BNC P?
+U 1 1 56F4ABF9
+P 8500 4850
+F 0 "P?" H 8510 4970 50  0000 C CNN
+F 1 "GPS RF" V 8610 4790 50  0000 C CNN
+F 2 "" H 8500 4850 50  0000 C CNN
+F 3 "" H 8500 4850 50  0000 C CNN
+	1    8500 4850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8350 4400 8350 4850
+$Comp
+L GND #PWR?
+U 1 1 56F4B4F0
+P 8500 5150
+F 0 "#PWR?" H 8500 4900 50  0001 C CNN
+F 1 "GND" H 8500 5000 50  0000 C CNN
+F 2 "" H 8500 5150 50  0000 C CNN
+F 3 "" H 8500 5150 50  0000 C CNN
+	1    8500 5150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8500 5050 8500 5150
+$EndSCHEMATC
