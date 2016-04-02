@@ -1,0 +1,4 @@
+(fp_lib_table
+  (lib (name NV08C-CSM)(type KiCad)(uri "$(KIPRJMOD)\\NV08C-CSM.pretty")(options "")(descr ""))
+  (lib (name RFM22B)(type KiCad)(uri "$(KIPRJMOD)\\RFM22B.pretty")(options "")(descr ""))
+)
