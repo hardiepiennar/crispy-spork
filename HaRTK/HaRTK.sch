@@ -1,4 +1,5 @@
 EESchema Schematic File Version 2
+LIBS:HaRTK-rescue
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -449,52 +450,6 @@ F 3 "" H 9300 2150 50  0000 C CNN
 $EndComp
 Text Notes 8900 3750 0    60   ~ 0
 Decoupling capacitors are \nintegrated in the package
-$Comp
-L C C4
-U 1 1 56F306DE
-P 6650 3150
-F 0 "C4" H 6675 3250 50  0000 L CNN
-F 1 "22pF" H 6675 3050 50  0000 L CNN
-F 2 "Capacitors_SMD:C_0805_HandSoldering" H 6688 3000 50  0001 C CNN
-F 3 "" H 6650 3150 50  0000 C CNN
-	1    6650 3150
-	1    0    0    -1  
-$EndComp
-$Comp
-L C C3
-U 1 1 56F30763
-P 6400 3150
-F 0 "C3" H 6425 3250 50  0000 L CNN
-F 1 "1uF" H 6425 3050 50  0000 L CNN
-F 2 "Capacitors_SMD:C_0805_HandSoldering" H 6438 3000 50  0001 C CNN
-F 3 "" H 6400 3150 50  0000 C CNN
-	1    6400 3150
-	1    0    0    -1  
-$EndComp
-$Comp
-L GND #PWR028
-U 1 1 56F309B6
-P 6650 3350
-F 0 "#PWR028" H 6650 3100 50  0001 C CNN
-F 1 "GND" H 6650 3200 50  0000 C CNN
-F 2 "" H 6650 3350 50  0000 C CNN
-F 3 "" H 6650 3350 50  0000 C CNN
-	1    6650 3350
-	1    0    0    -1  
-$EndComp
-$Comp
-L GND #PWR029
-U 1 1 56F30A20
-P 6400 3350
-F 0 "#PWR029" H 6400 3100 50  0001 C CNN
-F 1 "GND" H 6400 3200 50  0000 C CNN
-F 2 "" H 6400 3350 50  0000 C CNN
-F 3 "" H 6400 3350 50  0000 C CNN
-	1    6400 3350
-	1    0    0    -1  
-$EndComp
-Text Notes 6100 3750 0    60   ~ 0
-22uF should be placed as \nclose as possible to VIN_A\n
 Text Label 9600 2250 0    60   ~ 0
 RESET_NVC
 Text Notes 9600 2100 0    60   ~ 0
@@ -769,16 +724,6 @@ Wire Wire Line
 Wire Wire Line
 	9000 2250 9600 2250
 Wire Wire Line
-	6400 3300 6400 3350
-Wire Wire Line
-	6650 3300 6650 3350
-Connection ~ 6650 2950
-Wire Wire Line
-	6650 3000 6650 2950
-Connection ~ 6400 2950
-Wire Wire Line
-	6400 3000 6400 2950
-Wire Wire Line
 	9300 2150 9000 2150
 Wire Wire Line
 	6300 2950 7150 2950
@@ -1031,7 +976,7 @@ Wire Wire Line
 	2800 1900 2750 1900
 Connection ~ 2800 1800
 $Comp
-L 7805 U2
+L 7805-RESCUE-HaRTK U2
 U 1 1 56FEBB1A
 P 2200 900
 F 0 "U2" H 2350 704 50  0000 C CNN
