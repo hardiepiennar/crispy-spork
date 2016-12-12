@@ -59,9 +59,88 @@ def close():
     GPIO.output(PIN_SDN, GPIO.HIGH)
     print("[DONE]")
 
+def print_current_mode():
+    """Reads register 0x07 and prints out the current mode"""
+    mode_reg = read_register(0x07)
+    print("\n======Operating and Function Control======")
+
+    print("Crystal Oscillator (xton): "),
+    if mode_reg&0b00000001 > 0:
+        print("\t[ON]")
+    else:
+        print("\t[OFF]")
+
+    print("Phase Locked Loop (pllon): "),
+    if mode_reg&0b00000010 > 0:
+        print("\t[ON]")
+    else:
+        print("\t[OFF]")
+
+    print("Receive Mode (rxon): "),
+    if mode_reg&0b00000100 > 0:
+        print("\t\t[ON]")
+    else:
+        print("\t\t[OFF]")
+
+    print("Transmit Mode (txon): "),
+    if mode_reg&0b00001000 > 0:
+        print("\t\t[ON]")
+    else:
+        print("\t\t[OFF]")
+
+    print("32 kHz Clock Source (32ksel): "),
+    if mode_reg&0b00010000 > 0:
+        print("\t[ON]")
+    else:
+        print("\t[OFF]")
+
+    print("Watchdog Timer (enwt): "),
+    if mode_reg&0b00100000 > 0:
+        print("\t[Enabled]")
+    else:
+        print("\t[Disabled]")
+
+    print("Low Battery Detect (enlbd): "),
+    if mode_reg&0b01000000 > 0:
+        print("\t[Enabled]")
+    else:
+        print("\t[Disabled]")
+
+    mode_reg = read_register(0x08)
+    print("Auto Transmit (autotx): "),
+    if mode_reg&0b00001000 > 0:
+        print("\t[Enabled]")
+    else:
+        print("\t[Disabled]")
+
+    print("Multi-packet Receive (rxmpk): "),
+    if mode_reg&0b00010000 > 0:
+        print("\t[Enabled]")
+    else:
+        print("\t[Disabled]")
+
+    print("Ant diversity mode (antdiv): "),
+    print("\t["+str(mode_reg&0b11100000/32)+"]")
+
+    print("==========================================\n")
+
+def soft_reset():
+    #TODO: use register 0x07 to reset by setting swres
+    print("ERROR: soft_reset function not yet implemented")
+
+def clear_tx_fifo():
+    #TODO: use register 0x08 to clear tx fifo by setting ffclrtx 
+    print("ERROR: clear_tx_fifo function not yet implemented")
+
+def clear_rx_fifo():
+    #TODO: use register 0x08 to clear rx fifo by setting ffclrrx 
+    print("ERROR: clear_rx_fifo function not yet implemented")
+
+def set_auto_tx(state):
+    #TODO: use register 0x08 to turn on or off autotx 
+    print("ERROR: set_auto_tx function not yet implemented")
+    
 setup()
-print(read_register(0x00))
-print(read_register(0x01))
-print(read_register(0x02))
+print_current_mode()
 close()
 GPIO.cleanup()
