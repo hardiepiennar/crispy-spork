@@ -12,9 +12,6 @@ PIN_SDI = "XIO-P0"
 PIN_SDO = "XIO-P1"
 PIN_SCK = "XIO-P2"
 PIN_NSEL = "XIO-P3"
-PIN_RX_ANT = "XIO-P4"
-PIN_TX_ANT = "XIO-P5"
-PIN_SDN = "XIO-P6"
 
 
 def setup():
@@ -25,9 +22,6 @@ def setup():
     GPIO.setup(PIN_SDO, GPIO.IN)
     GPIO.setup(PIN_SCK, GPIO.OUT)
     GPIO.setup(PIN_NSEL, GPIO.OUT)
-    GPIO.setup(PIN_RX_ANT, GPIO.OUT)
-    GPIO.setup(PIN_TX_ANT, GPIO.OUT)
-    GPIO.setup(PIN_SDN, GPIO.OUT)
 
     #Initialize output pins
     GPIO.output(PIN_SDI, GPIO.LOW)
