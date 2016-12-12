@@ -11,8 +11,6 @@ import time
 PIN_SDI = "XIO-P0"
 PIN_SDO = "XIO-P1"
 PIN_SCK = "XIO-P2"
-PIN_NSEL = "XIO-P3"
-
 
 def setup():
     """Setup GPIO ports"""
@@ -21,12 +19,10 @@ def setup():
     GPIO.setup(PIN_SDI, GPIO.OUT)
     GPIO.setup(PIN_SDO, GPIO.IN)
     GPIO.setup(PIN_SCK, GPIO.OUT)
-    GPIO.setup(PIN_NSEL, GPIO.OUT)
 
     #Initialize output pins
     GPIO.output(PIN_SDI, GPIO.LOW)
     GPIO.output(PIN_SCK, GPIO.LOW)
-    GPIO.output(PIN_NSEL, GPIO.HIGH)
     print("[DONE]")
 
 def close():
