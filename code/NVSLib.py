@@ -6,6 +6,7 @@ H Pienaar Dec 2016
 import CHIP_IO.GPIO as GPIO
 import time
 import serial
+import numpy as np
 
 #Pin defenitions
 PIN_GPIO3 = "XIO-P4"
@@ -33,7 +34,7 @@ GPIO.output(PIN_GPIO5, GPIO.LOW)
 GPIO.output(PIN_RST, GPIO.LOW)
 
 #Initialize uart port
-ser = serial.Serial(SERIAL_PORT, 115200, parity=serial.PARITY_ODD)
+ser = serial.Serial(SERIAL_PORT, 115200, parity=serial.PARITY_ODD,timeout=None)
 print("[DONE]")
 
 time.sleep(0.1)
@@ -44,10 +45,20 @@ time.sleep(0.5)
 print("[DONE]")
 
 print("Sending NVS port commands..."),
-#ser.write(bytearray([0x10,0x0B,0x00,0x00,0xC2,0x01,0x00,0x02,0x10,0x03])) #Turn on BINR
-ser.write(bytearray([0x10,0x0B,0x00,0x00,0xC2,0x01,0x00,0x03,0x10,0x03])) #Turn on RTCM 
+#ser.write(bytearray([0x10,0x0B,0x00,0x00,0xC2,0x01,0x00,0x04,0x10,0x03])) #Turn on BINR
+#ser.write(bytearray([0x10,0x0B,0x00,0x00,0xC2,0x01,0x00,0x01,0x10,0x03])) #Turn off protocol 
+#ser.write(bytearray([0x10,0x0B,0x01,0xC0,0x12,0x00,0x00,0x03,0x10,0x03])) #Turn on RTCM 4800 Port A 
+#ser.write(bytearray([0x10,0x0B,0x01,0xC0,0x12,0x00,0x00,0x02,0x10,0x03])) #Turn on NMEA 4800 Port A 
+#time.sleep(5)
+#ser.write(bytearray([0x10,0x0B,0x01,0x00,0xC2,0x01,0x00,0x02,0x10,0x03])) #Turn on NMEA 115200 Port A 
+#ser.write(bytearray([0x10,0x26,0x10,0x03])) #Check communication 
+#ser.write("$PORST,F*20\r\n")
 print("[DONE]")
-
+#soft_reset()
 
 while True:
-    print(ser.readline()) 
+    print(str(ser.read())),
+
+GPIO.cleanup()
+ser.close()
+print("Exiting")
