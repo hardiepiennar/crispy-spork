@@ -139,8 +139,61 @@ def clear_rx_fifo():
 def set_auto_tx(state):
     #TODO: use register 0x08 to turn on or off autotx 
     print("ERROR: set_auto_tx function not yet implemented")
+
+def check_communication():
+    """Read register 0x00 and make sure it returns 0x07"""
+    if read_register(0x00) == 0x08:
+        return True
+    else:
+        return False
+
+def print_int_status():
+    """Prints the status of all of the interrupts and if they are enabled or not"""
+
+    int_stat_1 = read_register(0x03)
+    int_stat_2 = read_register(0x04)
+    int_en_1 = read_register(0x05)
+    int_en_2 = read_register(0x06)
+
+    def print_en_trig(name, en_comp, trig_comp):
+        print(name+" "),
+        if(en_comp > 0):
+            print("[Enabled] "),
+        else:
+            print("[Disabled]"),
+        print(":"),
+        if(trig_comp > 0):
+            print("[Triggered]")
+        else:
+            print("[Off]")
+
+    print("\n================Interrupt Status================")
+    print_en_trig("CRC Error            ", int_en_1 & 0b00000001, int_stat_1 & 0b00000001)
+    print_en_trig("Valid Packet         ", int_en_1 & 0b00000010, int_stat_1 & 0b00000010)
+    print_en_trig("Packet Sent          ", int_en_1 & 0b00000100, int_stat_1 & 0b00000100)
+    print_en_trig("External             ", int_en_1 & 0b00001000, int_stat_1 & 0b00001000)
+    print_en_trig("RX FIFO Almost Full  ", int_en_1 & 0b00010000, int_stat_1 & 0b00010000)
+    print_en_trig("TX FIFO Almost Empty ", int_en_1 & 0b00100000, int_stat_1 & 0b00100000)
+    print_en_trig("TX FIFO Almost Full  ", int_en_1 & 0b01000000, int_stat_1 & 0b01000000)
+    print_en_trig("FIFO Error           ", int_en_1 & 0b10000000, int_stat_1 & 0b10000000)
+
+    print_en_trig("Power On Reset       ", int_en_2 & 0b00000001, int_stat_2 & 0b00000001)
+    print_en_trig("Chip Ready           ", int_en_2 & 0b00000010, int_stat_2 & 0b00000010)
+    print_en_trig("Low Battery Detect   ", int_en_2 & 0b00000100, int_stat_2 & 0b00000100)
+    print_en_trig("Wake Up Timer        ", int_en_2 & 0b00001000, int_stat_2 & 0b00001000)
+    print_en_trig("RSSI                 ", int_en_2 & 0b00010000, int_stat_2 & 0b00010000)
+    print_en_trig("Invalid Preamble     ", int_en_2 & 0b00100000, int_stat_2 & 0b00100000)
+    print_en_trig("Valid Preamble       ", int_en_2 & 0b01000000, int_stat_2 & 0b01000000)
+    print_en_trig("SWDET                ", int_en_2 & 0b10000000, int_stat_2 & 0b10000000)
+    print("===============================================\n")
+
     
 setup()
-print_current_mode()
+if(check_communication()):
+    print("RFM22B Detected")
+    #print_current_mode()
+    print_int_status()
+else:
+    print("RFM22B Communication Failed")
 close()
 GPIO.cleanup()
