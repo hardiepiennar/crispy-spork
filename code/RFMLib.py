@@ -13,6 +13,23 @@ PIN_TX_ANT = "XIO-P5"
 PIN_SDN = "XIO-P6"
 PIN_NSEL = "XIO-P3"
 
+#Things that could be done
+#Add function to set microcontroller output clock
+#Add function to adjust crystal load capacitance 
+#Add GPIO configuration function 
+#Add ADC function
+#Add Temperature functions
+#Add Wake up timer functions 
+#Add Low Duty Cycle Configuration
+#Add Low Battery Functions 
+#Add AFC and Clock recovery functions
+#Add Antenna Diversity functions
+
+#TODO:
+#IF filter bandwidth function
+#Add RSSI function
+#Implement registers after 0x30
+
 def setup():
     print("Setting up RFM22B GPIO connections..."),
     #Setup GPIO pins
@@ -184,15 +201,48 @@ def print_int_status():
     print_en_trig("RSSI                 ", int_en_2 & 0b00010000, int_stat_2 & 0b00010000)
     print_en_trig("Invalid Preamble     ", int_en_2 & 0b00100000, int_stat_2 & 0b00100000)
     print_en_trig("Valid Preamble       ", int_en_2 & 0b01000000, int_stat_2 & 0b01000000)
-    print_en_trig("SWDET                ", int_en_2 & 0b10000000, int_stat_2 & 0b10000000)
+    print_en_trig("Sync Word Detected   ", int_en_2 & 0b10000000, int_stat_2 & 0b10000000)
     print("===============================================\n")
 
+def print_dev_status():
+    """Prints out the status register of the device"""
+    dev_status = read_register(0x02)
+    print("\n============Device Status============")
+    print("Chip Power State:\t"),
+    if(dev_status&0b00000011 == 0):
+        print("[Idle]")
+    elif(dev_status&0b00000011 == 1):
+        print("[RX]")
+    else:
+        print("[TX]")
+    print("Header Error:\t\t"),
+    if(dev_status&0b00010000 > 0):
+        print("[True]")
+    else:
+        print("[False]")
+    print("RX FIFO Empty:\t\t"),
+    if(dev_status&0b00100000 > 0):
+        print("[True]")
+    else:
+        print("[False]")
+    print("RX/TX FIFO Underflow:\t"),
+    if(dev_status&0b01000000 > 0):
+        print("[True]")
+    else:
+        print("[False]")
+    print("RX/TX FIFO Overflow:\t"),
+    if(dev_status&0b10000000 > 0):
+        print("[True]")
+    else:
+        print("[False]")
+    print("=====================================\n")
     
 setup()
 if(check_communication()):
     print("RFM22B Detected")
     #print_current_mode()
-    print_int_status()
+    #print_int_status()
+    print_dev_status()
 else:
     print("RFM22B Communication Failed")
 close()
