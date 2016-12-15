@@ -14,10 +14,17 @@ PIN_GPIO4 = "XIO-P5"
 PIN_GPIO5 = "XIO-P7"
 PIN_RST = "CSID1"
 PIN_SLP = "CSID0"
+PIN_ANT = "CSID2"
 SERIAL_PORT = "/dev/ttyS0"
 
 def soft_reset():
     ser.write(bytearray([0x10,0x01,0x00,0x01,0x21,0x01,0x00,0x00,0x10,0x03]))
+
+def check_ant():
+    if GPIO.input(PIN_ANT):
+        return True
+    else:
+        return False
 
 print("Setting up NVS GPIO connections..."),
 #Setup GPIO pins
@@ -26,6 +33,7 @@ GPIO.setup(PIN_GPIO4, GPIO.OUT)
 GPIO.setup(PIN_GPIO5, GPIO.OUT)
 GPIO.setup(PIN_RST, GPIO.OUT)
 GPIO.setup(PIN_SLP, GPIO.IN)
+GPIO.setup(PIN_ANT, GPIO.IN)
 
 #Initialize output pins
 GPIO.output(PIN_GPIO3, GPIO.LOW)
@@ -57,7 +65,11 @@ print("[DONE]")
 #soft_reset()
 
 while True:
-    print(str(ser.read())),
+    if GPIO.input(PIN_ANT):
+        print("Detected")
+    else:
+        print("No ant")
+    time.sleep(0.200)
 
 GPIO.cleanup()
 ser.close()
