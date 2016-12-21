@@ -6,6 +6,7 @@ H Pienaar Dec 2016
 import CHIP_IO.GPIO as GPIO
 import spiBitBang as spi
 import time
+import numpy as np
 
 #Pin definitions
 PIN_RX_ANT = "XIO-P4"
@@ -63,20 +64,14 @@ def setup():
 
 def read_register(addr):
     GPIO.output(PIN_NSEL, GPIO.LOW)
-    time.sleep(0.001)
     read = spi.xfer2([addr,0x00])[1]
-    time.sleep(0.001)
     GPIO.output(PIN_NSEL, GPIO.HIGH)
-    time.sleep(0.1)
     return read 
 
 def write_register(addr, byte):
     GPIO.output(PIN_NSEL, GPIO.LOW)
-    time.sleep(0.001)
-    spi.xfer2([addr&0b10000000,byte])
-    time.sleep(0.001)
+    spi.xfer2([addr|0b10000000, byte])
     GPIO.output(PIN_NSEL, GPIO.HIGH)
-    time.sleep(0.1)
 
 def close():
     print("Turning off RFM22B..."),
@@ -244,6 +239,37 @@ def print_dev_status():
         print("[False]")
     print("=====================================\n")
 
+def print_ezmac_status():
+    """Prints out the ezmac status register of the device"""
+    dev_status = read_register(0x31)
+    print("\n============EZMAC Status============")
+    print("Packet Sent:\t\t"),
+    if(dev_status&0b00000001 > 0):
+        print("[True]")
+    else:
+        print("[False]")
+    print("Packet Transmitting:\t"),
+    if(dev_status&0b00000010 > 0):
+        print("[True]")
+    else:
+        print("[False]")
+    print("CRC Error:\t\t"),
+    if(dev_status&0b00000100 > 0):
+        print("[True]")
+    else:
+        print("[False]")
+    print("Valid Packet Received:\t"),
+    if(dev_status&0b00001000 > 0):
+        print("[True]")
+    else:
+        print("[False]")
+    print("Packet Receiving:\t"),
+    if(dev_status&0b00010000 > 0):
+        print("[True]")
+    else:
+        print("[False]")
+    print("====================================\n")
+
 def get_rssi():
     """Reads the RSSI register and returns the value in dBm"""
     rssi_byte = read_register(0x26)
@@ -301,7 +327,7 @@ def set_if_filter(rbw):
     index = -1
     for i in np.arange(0,len(IFFilter)):
         if(int(rbw) == int(IFFilter[i])):
-        index = i
+            index = i
 
     #Return Flase if rbw was not found in list
     if index < 0:
@@ -320,13 +346,71 @@ def set_if_filter(rbw):
     #Check
     #print("IF Register "+str(readRFM22BRegister(spi,0x1C)))
     return True     
+
+def set_tx_mode():
+    """Sets the RFM into tx mode"""
+    reg = read_register(0x07)
+    write_register(0x07, reg|0b00001000)
+
+def set_rx_mode():
+    """Sets the RFM into rx mode"""
+    reg = read_register(0x07)
+    write_register(0x07, reg|0b00000100)
+
+def turn_on_pll():
+    """Turns on the PLL"""
+    reg = read_register(0x07)
+    write_register(0x07, reg|0b00000010)
+
+def set_fifo_mode():
+    """Sets the data modulation source to FIFO"""
+    reg = read_register(0x71)
+    write_register(0x71, reg|0b00100000)
+    write_register(0x71, reg&0b11101111)
+
+def write_fifo_data(data):
+    """Writes a data to the fifo"""
+    write_register(0x7F, data) #TODO: add support for burst write
     
 setup()
 if(check_communication()):
     print("RFM22B Detected")
-    #print_current_mode()
+
+    print_current_mode()
     #print_int_status()
     print_dev_status()
+    print_ezmac_status()
+    
+    print("Setting frequency..."),
+    if set_freq(868):
+        print("[Done]")
+    else:
+        print("[Failed]")
+
+    print("Filling up FIFO with bytes"),
+
+    for i in np.arange(65): 
+        print("."),
+        write_fifo_data(i)
+
+    print("[DONE]")
+
+    print_dev_status()
+
+    print("Turn on PLL"),
+    turn_on_pll()
+    print("[Done]")
+
+    print("Set transmit mode..."),
+    set_tx_mode()
+    print("[Done]")
+
+    time.sleep(0.5)
+    print_current_mode()
+    print_dev_status()
+    print_ezmac_status()
+
+    
 else:
     print("RFM22B Communication Failed")
 close()
