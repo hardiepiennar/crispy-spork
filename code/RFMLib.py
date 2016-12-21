@@ -30,6 +30,13 @@ PIN_NSEL = "XIO-P3"
 #Add RSSI function
 #Implement registers after 0x30
 
+#IF Filter lookup table
+IFFilter = [2600,2800,3100,3200,3700,4200,4500,4900,5400,5900,6100,7200,8200,8800,9500,10600,11500,12100,14200,16200,17500,18900,21000,22700,24000,28200,32200,34700,37700,41700,45200,47900,56200,64100,69200,75200,83200,90000,95300,112100,127900,137900,142800,167800,181100,191500,225100,248800,269300,284900,335500,361800,420200,469400,518800,577000,620700]
+IFFilterNDecExp = [5,5,5,5,5,5,5,4,4,4,4,4,4,4,3,3,3,3,3,3,3,2,2,2,2,2,2,2,1,1,1,1,1,1,1,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0]
+IFFilterDwn3Bypass = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+IFFilterFilset = [1,2,3,4,5,6,7,1,2,3,4,5,6,7,1,2,3,4,5,6,7,1,2,3,4,5,6,7,1,2,3,4,5,6,7,1,2,3,4,5,6,7,4,5,9,15,1,2,3,4,8,9,10,11,12,13,14]
+
+
 def setup():
     print("Setting up RFM22B GPIO connections..."),
     #Setup GPIO pins
@@ -236,6 +243,83 @@ def print_dev_status():
     else:
         print("[False]")
     print("=====================================\n")
+
+def get_rssi():
+    """Reads the RSSI register and returns the value in dBm"""
+    rssi_byte = read_register(0x26)
+    rssi = (10/19)*rssi_byte - 126.32 
+    return rssi 
+
+def set_freq(freq):
+    """
+    Sets up the RFM22B registers to listen or transmit at the given frequency
+    Returns True if the command was succesfull
+    freq is specified in MHz
+    """
+    #Check if frequency is in range
+    if(freq > 960 or freq < 240):
+        return False
+
+    #Some variables that will be used
+    bandSelect = 0b01000000
+    fb = 0b00000000
+    fc = 0
+    xtalFreq = 30000
+                        
+    #Calculate register according to formula found in excel sheet
+    if(freq >= 480):
+        bandSelect |= 0b00100000
+        temp = freq/(10*(xtalFreq/30000)*(1+1))
+    else:
+        temp = freq/(10*(xtalFreq/30000)*(1+0))
+        fb = int(np.floor(temp)) - 24
+        fc = int(np.floor((temp - np.floor(temp))*64000+0.49999))
+                                                                                            
+    bandSelect |= fb
+    fc1 = fc>>8
+    fc2 = fc&0b0000000011111111
+                                                                                                            
+    #   print(bandSelect)
+    #   print(fc1)
+    #   print(fc2)
+    #Write the calculated registers to the device
+    write_register(0x75,bandSelect)
+    write_register(0x76,fc1)
+    write_register(0x77,fc2)
+
+    #print("Freq Register "+str(readRFM22BRegister(spi,0x76)))
+                                                                                                                            
+    return True
+   
+def set_if_filter(rbw):
+    """
+    Sets the IF filter register for the specified bandwidth by using a lookup table
+    rbw is the bandwidth in Hz
+    returns True if filter was found in table and set
+    """
+    #Run through list to find IF chosen index
+    index = -1
+    for i in np.arange(0,len(IFFilter)):
+        if(int(rbw) == int(IFFilter[i])):
+        index = i
+
+    #Return Flase if rbw was not found in list
+    if index < 0:
+        print("ERROR: Filter value not found in lookup table")
+    return False
+
+    #Construct registers out of lookup table
+    ifReg = 0b00000000
+    ifReg |= (IFFilterDwn3Bypass[index]<<7)
+    ifReg |= (IFFilterNDecExp[index]<<4)
+    ifReg |= (IFFilterFilset[index])
+
+    #Write registers to RFM22B
+    write_register(0x1C,ifReg)
+
+    #Check
+    #print("IF Register "+str(readRFM22BRegister(spi,0x1C)))
+    return True     
     
 setup()
 if(check_communication()):
