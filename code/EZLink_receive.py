@@ -8,6 +8,7 @@ Feb 2017
 
 import RFMLib as rfm
 import time
+import numpy as np
 
 """Setup the library and turn on ism chip"""
 rfm.setup()
@@ -72,11 +73,11 @@ rfm.write_register(0x06, 0x00) # Write 0x00 to the Interrupt Enable 2 register
 ItStatus1 = rfm.read_register(0x03) # Read the Interrupt Status 1 register
 ItStatus2 = rfm.read_register(0x04) # Read the Interrupt Status 2 register
 
-
 """ Main Loop """
 # Receive packets 
 print("Waiting for packets...")
 while True:
+
     """Wait for interrupt"""
     while rfm.check_irq():
         time.sleep(0.001)
@@ -96,6 +97,31 @@ while True:
         print("CRC Error, FIFO flushed")
         # Enable the receiver chain
         rfm.write_register(0x07, 0x05) # Write 0x05 to the Operating Function Control 1 register
+
+    """Packet received interrupt occured"""
+    payload = []
+    if ItStatus1 & 0x02 == 0x02:
+        # Disable the receiver chain
+        rfm.write_register(0x07, 0x01) # Write 0x01 to the Operating Function Control 1 register
+        # Read the length of the received payload
+        length = rfm.read_register(0x4B)
+        # Read all bytes into payload object
+        for i in np.arange(length):
+            payload.append(rfm.read_register(0x7F))
+        print(payload)
+        
+    # Enable two interrupts again
+    # a) one which shows that a valid packet was received: 'ipkval'
+    # b) second shows if the packet received with incorrect CRC: 'icrcerror'
+    rfm.write_register(0x05, 0x03) # Write 0x03 to the Interrupt Enable 1 register
+    rfm.write_register(0x06, 0x00) # Write 0x00 to the Interrupt Enable 2 register
+
+    # Read interrupt status registers to clear pending interrupts making nIRQ pin go back to high
+    ItStatus1 = rfm.read_register(0x03) # Read the Interrupt Status 1 register
+    ItStatus2 = rfm.read_register(0x04) # Read the Interrupt Status 2 register
+
+    # Enable the receiver chain again
+    rfm.write_register(0x07, 0x05) # Write 0x05 to the Operating Function Control 1 register
 
 """Cleanup GPIO and turn off the chip"""
 rfm.close()

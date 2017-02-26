@@ -43,9 +43,9 @@ def xfer2(byte_list):
                 GPIO.output(PIN_SDI, GPIO.LOW)
             temp_byte*=2
                 
-            time.sleep(0.001)
+            #time.sleep(0.001)
             GPIO.output(PIN_SCK, GPIO.HIGH)
-            time.sleep(0.001)
+            #time.sleep(0.001)
             if GPIO.input(PIN_SDO):
                 store_byte += 1
             GPIO.output(PIN_SCK, GPIO.LOW)
