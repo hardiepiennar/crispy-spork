@@ -13,6 +13,7 @@ PIN_RX_ANT = "XIO-P4"
 PIN_TX_ANT = "XIO-P5"
 PIN_SDN = "XIO-P6"
 PIN_NSEL = "XIO-P3"
+PIN_NIRQ = "CSID3"
 
 #Things that could be done
 #Add function to set microcontroller output clock
@@ -45,6 +46,7 @@ def setup():
     GPIO.setup(PIN_TX_ANT, GPIO.OUT)
     GPIO.setup(PIN_SDN, GPIO.OUT)
     GPIO.setup(PIN_NSEL, GPIO.OUT)
+    GPIO.setup(PIN_NIRQ, GPIO.IN)
 
     #Initialize output pins
     GPIO.output(PIN_RX_ANT, GPIO.LOW)
@@ -56,7 +58,7 @@ def setup():
     #Turn on RFM chip
     print("Turning on RFM22B..."),
     GPIO.output(PIN_SDN, GPIO.LOW)
-    time.sleep(0.5)
+    time.sleep(0.015)
     print("[DONE]")
 
     #Initialize bitbang spi library
@@ -77,6 +79,9 @@ def close():
     print("Turning off RFM22B..."),
     GPIO.output(PIN_SDN, GPIO.HIGH)
     print("[DONE]")
+
+def check_irq():
+    return GPIO.input(PIN_NIRQ)
 
 def print_current_mode():
     """Reads register 0x07 and prints out the current mode"""
@@ -371,47 +376,50 @@ def set_fifo_mode():
 def write_fifo_data(data):
     """Writes a data to the fifo"""
     write_register(0x7F, data) #TODO: add support for burst write
-    
-setup()
-if(check_communication()):
-    print("RFM22B Detected")
 
-    print_current_mode()
-    #print_int_status()
-    print_dev_status()
-    print_ezmac_status()
-    
-    print("Setting frequency..."),
-    if set_freq(868):
+if __name__ == "__main__":
+    setup()
+    if(check_communication()):
+        print("RFM22B Detected")
+        print(read_register(0x01))
+        close()
+        exit() 
+        print_current_mode()
+        #print_int_status()
+        print_dev_status()
+        print_ezmac_status()
+        
+        print("Setting frequency..."),
+        if set_freq(868):
+            print("[Done]")
+        else:
+            print("[Failed]")
+
+        print("Filling up FIFO with bytes"),
+
+        for i in np.arange(65): 
+            print("."),
+            write_fifo_data(i)
+
+        print("[DONE]")
+
+        print_dev_status()
+
+        print("Turn on PLL"),
+        turn_on_pll()
         print("[Done]")
+
+        print("Set transmit mode..."),
+        set_tx_mode()
+        print("[Done]")
+
+        time.sleep(0.5)
+        print_current_mode()
+        print_dev_status()
+        print_ezmac_status()
+
+        
     else:
-        print("[Failed]")
-
-    print("Filling up FIFO with bytes"),
-
-    for i in np.arange(65): 
-        print("."),
-        write_fifo_data(i)
-
-    print("[DONE]")
-
-    print_dev_status()
-
-    print("Turn on PLL"),
-    turn_on_pll()
-    print("[Done]")
-
-    print("Set transmit mode..."),
-    set_tx_mode()
-    print("[Done]")
-
-    time.sleep(0.5)
-    print_current_mode()
-    print_dev_status()
-    print_ezmac_status()
-
-    
-else:
-    print("RFM22B Communication Failed")
-close()
-GPIO.cleanup()
+        print("RFM22B Communication Failed")
+    close()
+    GPIO.cleanup()

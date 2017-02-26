@@ -43,6 +43,7 @@ GPIO.output(PIN_RST, GPIO.LOW)
 
 #Initialize uart port
 ser = serial.Serial(SERIAL_PORT, 115200, parity=serial.PARITY_ODD,timeout=None)
+#ser = serial.Serial(SERIAL_PORT, 115200, parity=serial.PARITY_NONE,timeout=None)
 print("[DONE]")
 
 time.sleep(0.1)
@@ -53,23 +54,22 @@ time.sleep(0.5)
 print("[DONE]")
 
 print("Sending NVS port commands..."),
-#ser.write(bytearray([0x10,0x0B,0x00,0x00,0xC2,0x01,0x00,0x04,0x10,0x03])) #Turn on BINR
+ser.write(bytearray([0x10,0x0B,0x01,0x00,0xC2,0x01,0x00,0x04,0x10,0x03])) #Turn on BINR on Port A
+time.sleep(0.1)
 #ser.write(bytearray([0x10,0x0B,0x00,0x00,0xC2,0x01,0x00,0x01,0x10,0x03])) #Turn off protocol 
 #ser.write(bytearray([0x10,0x0B,0x01,0xC0,0x12,0x00,0x00,0x03,0x10,0x03])) #Turn on RTCM 4800 Port A 
 #ser.write(bytearray([0x10,0x0B,0x01,0xC0,0x12,0x00,0x00,0x02,0x10,0x03])) #Turn on NMEA 4800 Port A 
 #time.sleep(5)
 #ser.write(bytearray([0x10,0x0B,0x01,0x00,0xC2,0x01,0x00,0x02,0x10,0x03])) #Turn on NMEA 115200 Port A 
+ser.write(bytearray([0x10,0xF4,0x14,0x10,0x03])) #Request RAW BINR data every 1s
 #ser.write(bytearray([0x10,0x26,0x10,0x03])) #Check communication 
 #ser.write("$PORST,F*20\r\n")
 print("[DONE]")
 #soft_reset()
 
 while True:
-    if GPIO.input(PIN_ANT):
-        print("Detected")
-    else:
-        print("No ant")
     time.sleep(0.200)
+    print(ser.read()),
 
 GPIO.cleanup()
 ser.close()
