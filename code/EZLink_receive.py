@@ -76,12 +76,13 @@ ItStatus2 = rfm.read_register(0x04) # Read the Interrupt Status 2 register
 """ Main Loop """
 # Receive packets 
 print("Waiting for packets...")
+t_start = time.time()
+bytes_rec = 0
 while True:
 
     """Wait for interrupt"""
     while rfm.check_irq():
-        time.sleep(0.001)
-    print("Packet Received")
+        time.sleep(0.000001)
 
     # Read interrupt status registers to clear pending interrupts making nIRQ pin go back to high
     ItStatus1 = rfm.read_register(0x03) # Read the Interrupt Status 1 register
@@ -98,17 +99,25 @@ while True:
         # Enable the receiver chain
         rfm.write_register(0x07, 0x05) # Write 0x05 to the Operating Function Control 1 register
 
-    """Packet received interrupt occured"""
+    
     payload = []
     if ItStatus1 & 0x02 == 0x02:
         # Disable the receiver chain
         rfm.write_register(0x07, 0x01) # Write 0x01 to the Operating Function Control 1 register
         # Read the length of the received payload
         length = rfm.read_register(0x4B)
-        # Read all bytes into payload object
+        bytes_rec += length
         for i in np.arange(length):
+            # Read all bytes into payload object
             payload.append(rfm.read_register(0x7F))
+            # Read the length of the received payload
         print(payload)
+        data_rate = (bytes_rec/(time.time() - t_start))
+        print(data_rate)
+    
+    # Read interrupt status registers to clear pending interrupts making nIRQ pin go back to high
+    ItStatus1 = rfm.read_register(0x03) # Read the Interrupt Status 1 register
+    ItStatus2 = rfm.read_register(0x04) # Read the Interrupt Status 2 register
         
     # Enable two interrupts again
     # a) one which shows that a valid packet was received: 'ipkval'
