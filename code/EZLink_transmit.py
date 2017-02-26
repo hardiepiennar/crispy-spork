@@ -7,6 +7,7 @@ Feb 2017
 
 import RFMLib as rfm
 import time
+import numpy as np
 
 """Setup the library and turn on ism chip"""
 rfm.setup()
@@ -46,21 +47,20 @@ rfm.write_register(0x54, 0x7F) # Write 0x7F to the VCO Current Trimming register
 rfm.write_register(0x59, 0x40) # Write 0x40 to the Divider Current Trimming register
 
 """ Main Loop """
+count = 0
 # Send a packet every 1s
 while True:
     """Set the contents of the packet"""
-    print("Sending"),
+    start_time = time.time()
     # Set the length of the payload to 8 bytes 
-    rfm.write_register(0x3E, 8)
+    rfm.write_register(0x3E, 64)
     # Fill the payload into the transmit FIFO
-    rfm.write_register(0x7F, 0x42)
-    rfm.write_register(0x7F, 0x55)
-    rfm.write_register(0x7F, 0x54)
-    rfm.write_register(0x7F, 0x54)
-    rfm.write_register(0x7F, 0x4F)
-    rfm.write_register(0x7F, 0x4E)
-    rfm.write_register(0x7F, 0x31)
-    rfm.write_register(0x7F, 0x0D)
+    rfm.write_register(0x7F, count)
+    count += 1
+    for i in np.arange(63):
+        rfm.write_register(0x7F, 0x55)
+    stop_time = time.time()
+    print(str(stop_time - start_time))
 
     """Disable all interrupts and enable the packet sent interrupt only"""
     # This will be used for indicating the successful packet transmission for the CHIP
@@ -77,12 +77,14 @@ while True:
     """Wait for the packet sent interrupt"""
     # CHIP only needs to monitor the ipksent interrupt
     while rfm.check_irq():
-        print("."),
         time.sleep(0.001)
+    print("Packet sent")
     # Read interrupt status registers to release the interrupt flags
     ItStatus1 = rfm.read_register(0x03) # Read the Interrupt Status 1 register
     ItStatus2 = rfm.read_register(0x04) # Read the Interrupt Status 2 register
     print("[DONE]")
+    #Give the receiver some time
+    time.sleep(0.1)
 
 """Cleanup GPIO and turn off the chip"""
 rfm.close()
