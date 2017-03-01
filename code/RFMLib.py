@@ -67,17 +67,14 @@ def setup():
     bus = 32766 
     device = 0
     spi.open(bus,device)
+    time.sleep(0.1)
 
 def read_register(addr):
-    GPIO.output(PIN_NSEL, GPIO.LOW)
     read = spi.xfer2([addr,0x00])[1]
-    GPIO.output(PIN_NSEL, GPIO.HIGH)
     return read 
 
 def write_register(addr, byte):
-    GPIO.output(PIN_NSEL, GPIO.LOW)
     spi.xfer2([addr|0b10000000, byte])
-    GPIO.output(PIN_NSEL, GPIO.HIGH)
 
 def close():
     print("Turning off RFM22B..."),
