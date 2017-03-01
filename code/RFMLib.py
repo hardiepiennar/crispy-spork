@@ -4,7 +4,7 @@ H Pienaar Dec 2016
 """
 
 import CHIP_IO.GPIO as GPIO
-import spiBitBang as spi
+import spidev
 import time
 import numpy as np
 
@@ -38,6 +38,7 @@ IFFilterNDecExp = [5,5,5,5,5,5,5,4,4,4,4,4,4,4,3,3,3,3,3,3,3,2,2,2,2,2,2,2,1,1,1
 IFFilterDwn3Bypass = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 IFFilterFilset = [1,2,3,4,5,6,7,1,2,3,4,5,6,7,1,2,3,4,5,6,7,1,2,3,4,5,6,7,1,2,3,4,5,6,7,1,2,3,4,5,6,7,4,5,9,15,1,2,3,4,8,9,10,11,12,13,14]
 
+spi = spidev.SpiDev()
 
 def setup():
     print("Setting up RFM22B GPIO connections..."),
@@ -62,7 +63,10 @@ def setup():
     print("[DONE]")
 
     #Initialize bitbang spi library
-    spi.setup()
+    #spi.setup()
+    bus = 32766 
+    device = 0
+    spi.open(bus,device)
 
 def read_register(addr):
     GPIO.output(PIN_NSEL, GPIO.LOW)
