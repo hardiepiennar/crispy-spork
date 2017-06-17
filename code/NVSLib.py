@@ -17,8 +17,8 @@ PIN_SLP = "CSID0"
 PIN_ANT = "CSID2"
 SERIAL_PORT = "/dev/ttyS0"
 
-def soft_reset():
-    ser.write(bytearray([0x10,0x01,0x00,0x01,0x21,0x01,0x00,0x00,0x10,0x03]))
+def soft_reset_no_erase():
+    ser.write(bytearray([0x10,0x01,0x00,0x01,0x21,0x01,0x00,0x01,0x10,0x03]))
 
 def check_ant():
     if GPIO.input(PIN_ANT):
@@ -26,6 +26,61 @@ def check_ant():
     else:
         return False
 
+def set_porta_nmea():
+	#Turn on NMEA on Port A at 4800 baud
+	ser.write(bytearray([0x10,0x0B,0x01,0xC0,0x12,0x00,0x00,0x02,0x10,0x03])) 
+def set_porta_rtcm():
+	#Turn on RTCM on Port A at 4800 baud
+	ser.write(bytearray([0x10,0x0B,0x01,0xC0,0x12,0x00,0x00,0x03,0x10,0x03])) 
+def set_porta_binr():
+	#Turn on BINR on Port A at 115200 baud
+	ser.write(bytearray([0x10,0x0B,0x01,0x00,0xC2,0x01,0x00,0x04,0x10,0x03])) 
+def req_raw():
+	#Request raw data at 5Hz
+	ser.write(bytearray([0x10,0xF4,0x32,0x10,0x03])) 
+def set_nav_rate():
+	#Set the navigation rate
+	ser.write(bytearray([0x10,0xD7,0x02,0x02,0x10,0x03])) 
+def req_pvt():
+	#request pvt vector
+	ser.write(bytearray([0x10,0x27,0x01,0x10,0x03])) 
+def set_smooth_range():
+	#Set smooth range
+	ser.write(bytearray([0x10,0xD7,0x03,0x78,0x10,0x03])) 
+def init():
+	print("Initialising GPS...")
+
+	print("Warm start reboot")
+	soft_reset_no_erase()
+	time.sleep(0.2)
+
+	print("Setting navgation rate to 2 Hz")
+	ser.write(bytearray([0x10,0xD7,0x02,0x02,0x10,0x03])) 
+	time.sleep(0.2)
+
+	print("Differential correction SBAS w RTCA troposphere model")
+	ser.write(bytearray([0x10,0xD7,0x08,0x02,0x02,0x10,0x03]))
+	time.sleep(1)
+
+	print("Setting raw data output to 2 Hz")
+	ser.write(bytearray([0x10,0xF4,0x14,0x10,0x03])) 
+	time.sleep(0.2)
+
+	print("Setting bit information transmitted by satellites")
+	ser.write(bytearray([0x10,0xD5,0x01,0x10,0x03])) 
+	time.sleep(0.2)
+
+	#print("Rebooting")
+	#soft_reset_no_erase()
+	#time.sleep(0.2)
+
+def check_communication():
+	#Sends check communication package and reads reply
+	print("Sending Check Communication Packet")
+	ser.write(bytearray([0x10,0x26,0x10,0x03])) 
+	msg = ser.read(4) 
+	print(len(msg))
+	
 print("Setting up NVS GPIO connections..."),
 #Setup GPIO pins
 GPIO.setup(PIN_GPIO3, GPIO.OUT)
@@ -53,23 +108,20 @@ GPIO.output(PIN_RST, GPIO.HIGH)
 time.sleep(0.5)
 print("[DONE]")
 
-print("Sending NVS port commands..."),
-ser.write(bytearray([0x10,0x0B,0x01,0x00,0xC2,0x01,0x00,0x04,0x10,0x03])) #Turn on BINR on Port A
-time.sleep(0.1)
-#ser.write(bytearray([0x10,0x0B,0x00,0x00,0xC2,0x01,0x00,0x01,0x10,0x03])) #Turn off protocol 
-#ser.write(bytearray([0x10,0x0B,0x01,0xC0,0x12,0x00,0x00,0x03,0x10,0x03])) #Turn on RTCM 4800 Port A 
-#ser.write(bytearray([0x10,0x0B,0x01,0xC0,0x12,0x00,0x00,0x02,0x10,0x03])) #Turn on NMEA 4800 Port A 
-#time.sleep(5)
-#ser.write(bytearray([0x10,0x0B,0x01,0x00,0xC2,0x01,0x00,0x02,0x10,0x03])) #Turn on NMEA 115200 Port A 
-ser.write(bytearray([0x10,0xF4,0x14,0x10,0x03])) #Request RAW BINR data every 1s
-#ser.write(bytearray([0x10,0x26,0x10,0x03])) #Check communication 
-#ser.write("$PORST,F*20\r\n")
-print("[DONE]")
-#soft_reset()
+soft_reset_no_erase()
+time.sleep(0.5)
 
+print("Sending NVS port commands...")
+init()
+print("[DONE]")
+
+last_byte = 0
 while True:
-    time.sleep(0.200)
-    print(ser.read()),
+	packet = ser.read()
+    	print(packet.encode('hex')),
+	if packet.encode('hex') == "03" and last_byte.encode('hex') == "10":
+		print("")	
+	last_byte = packet
 
 GPIO.cleanup()
 ser.close()
