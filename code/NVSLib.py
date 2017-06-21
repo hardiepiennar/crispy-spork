@@ -9,13 +9,15 @@ import serial
 import numpy as np
 
 #Pin defenitions
-PIN_GPIO3 = "XIO-P4"
-PIN_GPIO4 = "XIO-P5"
-PIN_GPIO5 = "XIO-P7"
+#PIN_GPIO3 = "XIO-P4"
+#PIN_GPIO4 = "XIO-P5"
+#PIN_GPIO5 = "XIO-P7"
 PIN_RST = "CSID1"
 PIN_SLP = "CSID0"
 PIN_ANT = "CSID2"
 SERIAL_PORT = "/dev/ttyS0"
+
+ser = None
 
 def soft_reset_no_erase():
     ser.write(bytearray([0x10,0x01,0x00,0x01,0x21,0x01,0x00,0x01,0x10,0x03]))
@@ -80,49 +82,57 @@ def check_communication():
 	ser.write(bytearray([0x10,0x26,0x10,0x03])) 
 	msg = ser.read(4) 
 	print(len(msg))
-	
-print("Setting up NVS GPIO connections..."),
-#Setup GPIO pins
-GPIO.setup(PIN_GPIO3, GPIO.OUT)
-GPIO.setup(PIN_GPIO4, GPIO.OUT)
-GPIO.setup(PIN_GPIO5, GPIO.OUT)
-GPIO.setup(PIN_RST, GPIO.OUT)
-GPIO.setup(PIN_SLP, GPIO.IN)
-GPIO.setup(PIN_ANT, GPIO.IN)
 
-#Initialize output pins
-GPIO.output(PIN_GPIO3, GPIO.LOW)
-GPIO.output(PIN_GPIO4, GPIO.LOW)
-GPIO.output(PIN_GPIO5, GPIO.LOW)
-GPIO.output(PIN_RST, GPIO.LOW)
+def setup():
+	global ser
 
-#Initialize uart port
-ser = serial.Serial(SERIAL_PORT, 115200, parity=serial.PARITY_ODD,timeout=None)
-#ser = serial.Serial(SERIAL_PORT, 115200, parity=serial.PARITY_NONE,timeout=None)
-print("[DONE]")
+	print("Setting up NVS GPIO connections..."),
+	#Setup GPIO pins
+	#GPIO.setup(PIN_GPIO3, GPIO.OUT)
+	#GPIO.setup(PIN_GPIO4, GPIO.OUT)
+	#GPIO.setup(PIN_GPIO5, GPIO.OUT)
+	GPIO.setup(PIN_RST, GPIO.OUT)
+	GPIO.setup(PIN_SLP, GPIO.IN)
+	GPIO.setup(PIN_ANT, GPIO.IN)
 
-time.sleep(0.1)
+	#Initialize output pins
+	#GPIO.output(PIN_GPIO3, GPIO.LOW)
+	#GPIO.output(PIN_GPIO4, GPIO.LOW)
+	#GPIO.output(PIN_GPIO5, GPIO.LOW)
+	GPIO.output(PIN_RST, GPIO.LOW)
 
-print("Releasing NVS from reset..."),
-GPIO.output(PIN_RST, GPIO.HIGH)
-time.sleep(0.5)
-print("[DONE]")
+	#Initialize uart port
+	ser = serial.Serial(SERIAL_PORT, 115200, parity=serial.PARITY_ODD,timeout=None)
+	#ser = serial.Serial(SERIAL_PORT, 115200, parity=serial.PARITY_NONE,timeout=None)
+	print("[DONE]")
 
-soft_reset_no_erase()
-time.sleep(0.5)
+	time.sleep(0.1)
 
-print("Sending NVS port commands...")
-init()
-print("[DONE]")
+	print("Releasing NVS from reset..."),
+	GPIO.output(PIN_RST, GPIO.HIGH)
+	time.sleep(0.5)
+	print("[DONE]")
 
-last_byte = 0
-while True:
-	packet = ser.read()
-    	print(packet.encode('hex')),
-	if packet.encode('hex') == "03" and last_byte.encode('hex') == "10":
-		print("")	
-	last_byte = packet
+	soft_reset_no_erase()
+	time.sleep(0.5)
 
-GPIO.cleanup()
-ser.close()
-print("Exiting")
+	print("Sending NVS port init commands...")
+	init()
+	print("[DONE]")
+
+def close_serial():
+	ser.close()
+
+def close():
+	global ser
+	GPIO.cleanup()
+
+#last_byte = 0
+#while True:
+#	packet = ser.read()
+#    	print(packet.encode('hex')),
+#	if packet.encode('hex') == "03" and last_byte.encode('hex') == "10":
+#		print("")	
+#	last_byte = packet
+
+#print("Exiting")
