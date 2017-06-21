@@ -71,11 +71,9 @@ def send_bytes(msg):
 	# CHIP only needs to monitor the ipksent interrupt
 	while rfm.check_irq():
 		time.sleep(0.001)
-	print("Packet sent")
 	# Read interrupt status registers to release the interrupt flags
 	ItStatus1 = rfm.read_register(0x03) # Read the Interrupt Status 1 register
 	ItStatus2 = rfm.read_register(0x04) # Read the Interrupt Status 2 register
-	print("[DONE]")
 
 
 def close():

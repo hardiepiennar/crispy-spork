@@ -13,9 +13,6 @@ import NVSLib as nvs
 import EZLink_transmit as rfm
 import serial
 
-print("Initialising radio")
-rfm.setup()
-nvs.close()
 
 print("Removing getty service from ttyS0")
 subprocess.call("systemctl mask serial-getty@ttyS0.service", shell=True)
@@ -28,12 +25,14 @@ nvs.close_serial()
 print("Opening serial port for receiving GPS data")
 ser = serial.Serial("/dev/ttyS0", 115200, parity=serial.PARITY_ODD,timeout=None)
 	
+print("Initialising radio")
+rfm.setup()
+
 print("Sending UART data over radio")
 try:
 	while True:
-		print(ser.read())
-		rfm.send_bytes("Hello ")	
-		time.sleep(0.2)
+		data = ser.read(8)
+		rfm.send_bytes(data)	
 except KeyboardInterrupt:
 	print("Shutting down radio and gps")
 	rfm.close()
