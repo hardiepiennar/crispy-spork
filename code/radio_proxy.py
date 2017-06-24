@@ -12,29 +12,37 @@ import subprocess
 import serial
 import serial.tools.list_ports
 import EZLink_receive as rfm
+import time
+import numpy as np
 
-# Setting up the virtual serial port 
-print("Checking if virtual serial port has been setup")
-ports = os.listdir("/dev/pts/")
+print("Killing any other socat process")
+subprocess.call("pkill socat &", shell=True)
+time.sleep(1)
 
-if len(ports) < 5:
-	print("Setting up proxy serial port..."),
-	subprocess.call("socat -d -d pty,raw,echo=0, pty,raw,echo=0 &", shell=True)
-	print("Virtual port created")
-else:
-	print("Virtual ports already up and running")
+print("Setting up proxy serial port..."),
+old_ports = os.listdir("/dev/pts/")
+subprocess.call("socat -d -d pty,raw,echo=0, pty,raw,echo=0 &", shell=True)
+time.sleep(1)
+print("Virtual port created")
+new_ports = os.listdir("/dev/pts/")
+for i in np.arange(len(old_ports)):
+	new_ports.remove(old_ports[i])
 
 # Open virtual port
 print("Opening virtual port")
-ser = serial.Serial("/dev/pts/2",115200,parity=serial.PARITY_ODD,timeout=None)
+ser = serial.Serial("/dev/pts/"+new_ports[0],115200,parity=serial.PARITY_ODD,timeout=None)
 
 # Create RFM22B receive link object
 print("Setting up RFM22B")
 rfm.setup()
 
 # Start forwarding loop
-print("Creating endless posting loop")
-#while True:
-#	rfm.receive_bytes()
-ser.close()
-rfm.close()
+print("Creating endless posting loop to port: "+"/dev/pts/"+new_ports[0])
+try:
+	while True:
+		msg = rfm.receive_bytes()
+		if msg != None:
+			ser.write(msg)
+except KeyboardInterrupt:
+	ser.close()
+	rfm.close()

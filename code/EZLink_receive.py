@@ -109,9 +109,7 @@ def receive_bytes():
 			# Read all bytes into payload object
 			payload.append(rfm.read_register(0x7F))
 			# Read the length of the received payload
-		print(payload)
-		data_rate = (bytes_rec/(time.time() - t_start))
-		print(data_rate)
+		#print(payload)
     
 	# Read interrupt status registers to clear pending interrupts making nIRQ pin go back to high
 	ItStatus1 = rfm.read_register(0x03) # Read the Interrupt Status 1 register
