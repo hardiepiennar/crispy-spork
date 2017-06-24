@@ -16,7 +16,9 @@ import time
 import numpy as np
 
 print("Killing any other socat process")
-subprocess.call("pkill socat &", shell=True)
+ports = os.listdir("/dev/pts/")
+if len(ports) > 3:
+	subprocess.call("pkill socat &", shell=True)
 time.sleep(1)
 
 print("Setting up proxy serial port..."),
@@ -30,7 +32,8 @@ for i in np.arange(len(old_ports)):
 
 # Open virtual port
 print("Opening virtual port")
-ser = serial.Serial("/dev/pts/"+new_ports[0],115200,parity=serial.PARITY_ODD,timeout=None)
+ser = serial.Serial("/dev/pts/"+new_ports[0],115200,timeout=None)
+#ser = serial.Serial("/dev/pts/"+new_ports[0],115200,parity=serial.PARITY_ODD,timeout=None)
 
 # Create RFM22B receive link object
 print("Setting up RFM22B")
@@ -38,11 +41,13 @@ rfm.setup()
 
 # Start forwarding loop
 print("Creating endless posting loop to port: "+"/dev/pts/"+new_ports[0])
+print("Data available on: "+"/dev/pts/"+new_ports[1])
 try:
 	while True:
 		msg = rfm.receive_bytes()
-		if msg != None:
-			ser.write(msg)
-except KeyboardInterrupt:
+		ser.write(bytearray(msg))
+except:
+	print("Exception caught!")
+finally:
 	ser.close()
 	rfm.close()

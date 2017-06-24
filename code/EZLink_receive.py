@@ -127,6 +127,8 @@ def receive_bytes():
 
 	# Enable the receiver chain again
 	rfm.write_register(0x07, 0x05) # Write 0x05 to the Operating Function Control 1 register
+	
+	return payload
 
 def close():
 	"""Cleanup GPIO and turn off the chip"""
