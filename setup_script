@@ -15,6 +15,17 @@ sudo python setup.py install
 cd ..
 sudo rm -rf CHIP_IO
 
+sudo apt-get install python-dev
+mkdir python-spi
+cd python-spi
+wget https://raw.github.com/doceme/py-spidev/master/setup.py
+wget https://raw.github.com/doceme/py-spidev/master/README.md
+wget https://raw.github.com/doceme/py-spidev/master/CHANGELOG.md
+wget https://raw.github.com/doceme/py-spidev/master/spidev_module.c
+sudo python setup.py install
+cd ..
+rm -r python-spi
+
 # Add these lines to /etc/rc.local
 #mkdir -p /sys/kernel/config/device-tree/overlays/spi
 #cat /lib/firmware/nextthingco/chip/sample-spi.dtbo > /sys/kernel/config/device-tree/overlays/spi/dtbo
