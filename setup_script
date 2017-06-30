@@ -1,5 +1,6 @@
 sudo apt-get install vim
 sudo apt-get install python-numpy
+sudo apt-get install python-serial 
 
 sudo apt-get update
 sudo apt-get install git build-essential python-dev python-pip flex bison
@@ -15,7 +16,7 @@ cd ..
 sudo rm -rf CHIP_IO
 
 # Add these lines to /etc/rc.local
-mkdir -p /sys/kernel/config/device-tree/overlays/spi
-cat /lib/firmware/nextthingco/chip/sample-spi.dtbo > /sys/kernel/config/device-tree/overlays/spi/dtbo
+#mkdir -p /sys/kernel/config/device-tree/overlays/spi
+#cat /lib/firmware/nextthingco/chip/sample-spi.dtbo > /sys/kernel/config/device-tree/overlays/spi/dtbo
 
-sudo systemctl stop serial-getty@ttyS0.service
+#sudo systemctl stop serial-getty@ttyS0.service
