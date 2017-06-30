@@ -14,8 +14,8 @@ import EZLink_transmit as rfm
 import serial
 
 
-print("Removing getty service from ttyS0")
-subprocess.call("systemctl mask serial-getty@ttyS0.service", shell=True)
+#print("Removing getty service from ttyS0")
+#subprocess.call("systemctl mask serial-getty@ttyS0.service", shell=True)
 
 print("Initialising gps")
 nvs.setup()
