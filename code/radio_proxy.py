@@ -32,8 +32,8 @@ for i in np.arange(len(old_ports)):
 
 # Open virtual port
 print("Opening virtual port")
-ser = serial.Serial("/dev/pts/"+new_ports[0],115200,timeout=None)
-#ser = serial.Serial("/dev/pts/"+new_ports[0],115200,parity=serial.PARITY_ODD,timeout=None)
+ser = serial.Serial("/dev/pts/"+new_ports[0],9600,timeout=None)
+#ser = serial.Serial("/dev/pts/"+new_ports[0],9600,parity=serial.PARITY_NONE,timeout=None)
 
 # Create RFM22B receive link object
 print("Setting up RFM22B")
@@ -45,6 +45,7 @@ print("Data available on: "+"/dev/pts/"+new_ports[1])
 try:
 	while True:
 		msg = rfm.receive_bytes()
+		#print("msg: "+str(msg))
 		ser.write(bytearray(msg))
 except:
 	print("Exception caught!")
