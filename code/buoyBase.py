@@ -21,10 +21,10 @@ import serial.tools.list_ports
 #print("Removing getty service from ttyS0")
 #subprocess.call("systemctl mask serial-getty@ttyS0.service", shell=True)
 
-print("Initialising gps")
-nvs.setup()
-print("Releasing serial from setup operation")
-nvs.close_serial()
+#print("Initialising gps")
+#nvs.setup()
+#print("Releasing serial from setup operation")
+#nvs.close_serial()
 
 print("Creating virtual port for rtcm3 data")
 print("Killing any other socat process")
@@ -40,14 +40,15 @@ new_ports = os.listdir("/dev/pts/")
 for i in np.arange(len(old_ports)):
         new_ports.remove(old_ports[i])
 
-print("Starting up str2str server for rtcm3 generation")
-subprocess.call("./str2str -in \"serial://ttyS0:115200:8:O:1#nvs\" -out \"serial://pts/1:9600:8:N:1#rtcm3\" -msg \"1002,1004,1006,1013,1019\"&", shell=True)
+#print("Starting up str2str server for rtcm3 generation")
+#subprocess.call("./str2str -in \"serial://ttyS0:115200:8:O:1#nvs\" -out \"serial://pts/1:9600:8:N:1#rtcm3\" -msg \"1002,1004,1006,1013,1019\"&", shell=True)
 
 print("Opening serial port for receiving rtcm3 data")
 ser = serial.Serial("/dev/pts/2", 9600, parity=serial.PARITY_NONE,timeout=None)
 	
 #print("Initialising radio")
 rfm.setup()
+
 
 print("Sending UART data over radio")
 try:
