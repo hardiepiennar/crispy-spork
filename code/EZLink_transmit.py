@@ -75,7 +75,6 @@ def send_bytes(msg):
 	ItStatus1 = rfm.read_register(0x03) # Read the Interrupt Status 1 register
 	ItStatus2 = rfm.read_register(0x04) # Read the Interrupt Status 2 register
 
-
 def close():
 	"""Cleanup GPIO and turn off the chip"""
 	rfm.close()
