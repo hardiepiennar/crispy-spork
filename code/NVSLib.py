@@ -3,18 +3,18 @@ NVS device library for C.H.I.P device
 H Pienaar Dec 2016
 """
 
-import CHIP_IO.GPIO as GPIO
+import RPi.GPIO as GPIO
 import time
 import serial
 import numpy as np
 
 #Pin defenitions
-#PIN_GPIO3 = "XIO-P4"
-#PIN_GPIO4 = "XIO-P5"
-#PIN_GPIO5 = "XIO-P7"
-PIN_RST = "CSID1"
-PIN_SLP = "CSID0"
-PIN_ANT = "CSID2"
+#PIN_RST = "CSID1"
+#PIN_SLP = "CSID0"
+#PIN_ANT = "CSID2"
+PIN_RST = 18
+PIN_SLP = 23 
+PIN_ANT = 17 
 SERIAL_PORT = "/dev/ttyS0"
 
 ser = None

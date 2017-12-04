@@ -3,17 +3,20 @@ RFM device library for C.H.I.P device
 H Pienaar Dec 2016
 """
 
-import CHIP_IO.GPIO as GPIO
+import RPi.GPIO as GPIO
 import spidev
 import time
 import numpy as np
 
 #Pin definitions
-PIN_RX_ANT = "XIO-P4"
-PIN_TX_ANT = "XIO-P5"
-PIN_SDN = "XIO-P6"
-PIN_NSEL = "XIO-P3"
-PIN_NIRQ = "CSID3"
+#PIN_RX_ANT = "XIO-P4"
+#PIN_TX_ANT = "XIO-P5"
+#PIN_SDN = "XIO-P6"
+#PIN_NSEL = "XIO-P3"
+#PIN_NIRQ = "CSID3"
+
+PIN_SDN = 6 
+PIN_NIRQ = 3 
 
 #Things that could be done
 #Add function to set microcontroller output clock
@@ -43,17 +46,18 @@ spi = spidev.SpiDev()
 def setup():
     print("Setting up RFM22B GPIO connections..."),
     #Setup GPIO pins
-    GPIO.setup(PIN_RX_ANT, GPIO.OUT)
-    GPIO.setup(PIN_TX_ANT, GPIO.OUT)
+    GPIO.setmode(GPIO.BCM)
+    #GPIO.setup(PIN_RX_ANT, GPIO.OUT)
+    #GPIO.setup(PIN_TX_ANT, GPIO.OUT)
     GPIO.setup(PIN_SDN, GPIO.OUT)
-    GPIO.setup(PIN_NSEL, GPIO.OUT)
+    #GPIO.setup(PIN_NSEL, GPIO.OUT)
     GPIO.setup(PIN_NIRQ, GPIO.IN)
 
     #Initialize output pins
-    GPIO.output(PIN_RX_ANT, GPIO.LOW)
-    GPIO.output(PIN_TX_ANT, GPIO.LOW)
+    #GPIO.output(PIN_RX_ANT, GPIO.LOW)
+    #GPIO.output(PIN_TX_ANT, GPIO.LOW)
     GPIO.output(PIN_SDN, GPIO.HIGH)
-    GPIO.output(PIN_NSEL, GPIO.HIGH)
+    #GPIO.output(PIN_NSEL, GPIO.HIGH)
     print("[DONE]")
 
     #Turn on RFM chip
@@ -64,10 +68,16 @@ def setup():
 
     #Initialize bitbang spi library
     #spi.setup()
-    bus = 32766 
+    bus = 0 
     device = 0
     spi.open(bus,device)
     time.sleep(0.1)
+
+    print("Checking communication with RFM chip"),
+    if check_communication():
+        print("[Success]")
+    else:
+        print("[Fail]")
 
 def read_register(addr):
     read = spi.xfer2([addr,0x00])[1]
